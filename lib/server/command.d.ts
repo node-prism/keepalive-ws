@@ -1,4 +1,3 @@
-/// <reference types="node" />
 export interface Command {
     id?: number;
     command: string;
