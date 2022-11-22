@@ -13,4 +13,3 @@ export class Latency {
     this.ms = this.end - this.start;
   }
 }
-

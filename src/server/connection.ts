@@ -82,4 +82,3 @@ export class Connection extends EventEmitter {
     this.socket.send(JSON.stringify(cmd));
   }
 }
-

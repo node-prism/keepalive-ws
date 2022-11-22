@@ -17,4 +17,3 @@ export const bufferToCommand = (buffer: Buffer): Command => {
     return { id: 0, command: "", payload: {} };
   }
 };
-
