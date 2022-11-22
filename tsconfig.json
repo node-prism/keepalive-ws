@@ -11,7 +11,10 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "declaration": true,
+    "declarationMap": true
+
   },
   "exclude": [
     "node_modules",

@@ -9,6 +9,16 @@
     "./server": "./lib/server/index.js",
     "./client": "./lib/client/index.js"
   },
+  "typesVersions": {
+    "*": {
+      "server": [
+        "lib/server/index.d.ts"
+      ],
+      "client": [
+        "lib/client/index.d.ts"
+      ]
+    }
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
