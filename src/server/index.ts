@@ -94,9 +94,11 @@ export class KeepAliveServer extends WebSocketServer {
   private cleanupConnection(c: Connection) {
     c.stopIntervals();
     delete this.connections[c.id];
-    this.remoteAddressToConnections[c.remoteAddress] = this.remoteAddressToConnections[c.remoteAddress].filter(
-      (cn) => cn.id !== c.id  
-    );
+    if (this.remoteAddressToConnections[c.remoteAddress]) {
+      this.remoteAddressToConnections[c.remoteAddress] = this.remoteAddressToConnections[c.remoteAddress].filter(
+        (cn) => cn.id !== c.id  
+      );
+    }
 
     if (!this.remoteAddressToConnections[c.remoteAddress].length) {
       delete this.remoteAddressToConnections[c.remoteAddress];
@@ -107,6 +109,14 @@ export class KeepAliveServer extends WebSocketServer {
     this.on("connection", (socket: WebSocket, req: IncomingMessage) => {
       const connection = new Connection(socket, req, this.serverOptions);
       this.connections[connection.id] = connection;
+
+      if (!this.remoteAddressToConnections[connection.remoteAddress]) {
+        this.remoteAddressToConnections[connection.remoteAddress] = [];
+      }
+
+      this.remoteAddressToConnections[connection.remoteAddress].push(connection);
+
+
       this.emit("connected", connection);
 
       connection.once("close", () => {
