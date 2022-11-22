@@ -254,3 +254,5 @@ export class KeepAliveServer extends WebSocketServer {
     }
   }
 }
+
+export { Connection };

@@ -109,4 +109,5 @@ export declare class KeepAliveServer extends WebSocketServer {
     addMiddlewareToCommand(command: string, ...middlewares: SocketMiddleware[]): void;
     private runCommand;
 }
+export { Connection };
 //# sourceMappingURL=index.d.ts.map
