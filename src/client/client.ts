@@ -50,7 +50,6 @@ export class KeepAliveClient extends EventTarget {
   socket: WebSocket;
   pingTimeout: ReturnType<typeof setTimeout>;
   options: KeepAliveClientOptions;
-
   isReconnecting = false;
 
   constructor(url: string, opts: KeepAliveClientOptions = {}) {
