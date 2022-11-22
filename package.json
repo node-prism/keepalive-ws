@@ -5,6 +5,7 @@
   "type": "module",
   "main": "lib/server/index.js",
   "exports": {
+    ".": "./lib/index.js",
     "./server": "./lib/server/index.js",
     "./client": "./lib/client/index.js"
   },
