@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "es2022",
+    "target": "es2021",
+    "moduleResolution": "node",
+    "outDir": "./lib",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "baseUrl": "."
+  },
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
+}
+

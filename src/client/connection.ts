@@ -1,0 +1,139 @@
+import { IdManager } from "./ids";
+import { Queue, QueueItem } from "./queue";
+
+type Command = {
+  id?: number;
+  command: string;
+  payload?: any;
+}
+
+export class Connection extends EventTarget {
+  socket: WebSocket;
+  ids = new IdManager();
+  queue = new Queue();
+  callbacks: { [id: number]: (error: Error | null, result?: any) => void } = {};
+
+  constructor(socket: WebSocket) {
+    super();
+    this.socket = socket;
+    this.applyListeners();
+  }
+
+  sendToken(cmd: Command, expiresIn: number) {
+    try {
+      this.socket.send(JSON.stringify(cmd));
+    } catch (e) {
+      this.queue.add(cmd, expiresIn);
+    }
+  }
+
+  applyListeners(reconnection = false) {
+    const drainQueue = () => {
+      while (!this.queue.isEmpty) {
+        const item = this.queue.pop() as QueueItem;
+        this.sendToken(item.value, item.expiresIn);
+      }
+    };
+
+    if (reconnection) drainQueue();
+
+    // @ts-ignore
+    this.socket.onopen = (socket: WebSocket, ev: Event): any => {
+      drainQueue();
+      this.dispatchEvent(new Event("connection"));
+      this.dispatchEvent(new Event("connected"));
+      this.dispatchEvent(new Event("connect"));
+    };
+
+    this.socket.onclose = (event: CloseEvent) => {
+      this.dispatchEvent(new Event("close"));
+      this.dispatchEvent(new Event("closed"));
+      this.dispatchEvent(new Event("disconnected"));
+      this.dispatchEvent(new Event("disconnect"));
+    };
+
+    this.socket.onmessage = async (event: MessageEvent) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        this.dispatchEvent(new CustomEvent("message", { detail: data }));
+
+        if (data.command === "latency:request") {
+          this.dispatchEvent(
+            new CustomEvent(
+              "latency:request",
+              { detail: { latency: data.payload.latency ?? undefined }}
+              )
+          );
+          this.command("latency:response", { latency: data.payload.latency ?? undefined }, null);
+        } else if (data.command === "latency") {
+          this.dispatchEvent(
+            new CustomEvent(
+              "latency",
+              { detail: { latency: data.payload ?? undefined }}
+              )
+          );
+        } else if (data.command === "ping") {
+          this.dispatchEvent(new CustomEvent("ping", {}));
+          this.command("pong", {}, null);
+        } else {
+          this.dispatchEvent(new CustomEvent(data.command, { detail: data.payload }));
+        }
+
+        if (this.callbacks[data.id]) {
+          this.callbacks[data.id](null, data.payload);
+        }
+      } catch (e) {
+        this.dispatchEvent(new Event("error"));
+      }
+    };
+  }
+
+  async command(command: string, payload: any, expiresIn: number = 30_000, callback: Function | null = null) {
+    const id = this.ids.reserve();
+    const cmd = { id, command, payload };
+
+    this.sendToken(cmd, expiresIn);
+
+    if (expiresIn === null) {
+      this.ids.release(id);
+      delete this.callbacks[id];
+      return;
+    }
+
+    const response = this.createResponsePromise(id);
+    const timeout = this.createTimeoutPromise(id, expiresIn);
+
+    if (typeof callback === "function") {
+      const ret = await Promise.race([response, timeout]);
+      callback(ret);
+      return ret;
+    } else {
+      return Promise.race([response, timeout]);
+    }
+  }
+
+  createTimeoutPromise(id: number, expiresIn: number) {
+    return new Promise((_, reject) => {
+      setTimeout(() => {
+        this.ids.release(id);
+        delete this.callbacks[id];
+        reject(new Error(`Command ${id} timed out after ${expiresIn}ms.`));
+      }, expiresIn);
+    });
+  }
+
+  createResponsePromise(id: number) {
+    return new Promise((resolve, reject) => {
+      this.callbacks[id] = (error: Error | null, result?: any) => {
+        this.ids.release(id);
+        delete this.callbacks[id];
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      };
+    });
+  }
+}
