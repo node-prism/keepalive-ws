@@ -68,6 +68,7 @@ export class Connection extends EventEmitter {
 
       if (command.command === "latency:response") {
         this.latency.onResponse();
+        return;
       } else if (command.command === "pong") {
         this.alive = true;
         return;
