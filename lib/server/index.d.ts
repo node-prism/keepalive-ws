@@ -6,6 +6,7 @@ export declare interface KeepAliveServer extends WebSocketServer {
     on(event: "connection", handler: (socket: WebSocket, req: IncomingMessage) => void): this;
     on(event: "connected", handler: () => void): this;
     on(event: "close", handler: () => void): this;
+    emit(event: "connection", socket: WebSocket, req: IncomingMessage): boolean;
     emit(event: "connected", connection: Connection): boolean;
     emit(event: "close", connection: Connection): boolean;
     emit(event: "error", connection: Connection): boolean;
