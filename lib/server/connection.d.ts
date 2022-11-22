@@ -14,7 +14,7 @@ export declare class Connection extends EventEmitter {
     latency: Latency;
     ping: Ping;
     remoteAddress: string;
-    options: KeepAliveServerOptions;
+    connectionOptions: KeepAliveServerOptions;
     constructor(socket: WebSocket, req: IncomingMessage, options: KeepAliveServerOptions);
     startIntervals(): void;
     stopIntervals(): void;

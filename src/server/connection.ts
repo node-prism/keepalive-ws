@@ -13,14 +13,14 @@ export class Connection extends EventEmitter {
   latency: Latency;
   ping: Ping;
   remoteAddress: string;
-  options: KeepAliveServerOptions;
+  connectionOptions: KeepAliveServerOptions;
 
   constructor(socket: WebSocket, req: IncomingMessage, options: KeepAliveServerOptions) {
     super();
     this.socket = socket;
     this.id = req.headers["sec-websocket-key"]!;
     this.remoteAddress = req.socket.remoteAddress!;
-    this.options = options;
+    this.connectionOptions = options;
 
     this.applyListeners();
     this.startIntervals();
@@ -41,7 +41,7 @@ export class Connection extends EventEmitter {
 
       this.latency.onRequest();
       this.send({ command: "latency:request", payload: {} });
-    }, this.options.latencyInterval);
+    }, this.connectionOptions.latencyInterval);
 
     this.ping.interval = setInterval(() => {
       if (!this.alive) {
@@ -50,7 +50,7 @@ export class Connection extends EventEmitter {
 
       this.alive = false;
       this.send({ command: "ping", payload: {} });
-    }, this.options.pingInterval);
+    }, this.connectionOptions.pingInterval);
   }
 
   stopIntervals() {

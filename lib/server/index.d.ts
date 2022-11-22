@@ -70,7 +70,7 @@ export declare class KeepAliveServer extends WebSocketServer {
     rooms: {
         [roomName: string]: Set<string>;
     };
-    options: KeepAliveServerOptions;
+    serverOptions: KeepAliveServerOptions;
     constructor(opts: KeepAliveServerOptions);
     private cleanupConnection;
     private applyListeners;

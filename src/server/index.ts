@@ -79,11 +79,11 @@ export class KeepAliveServer extends WebSocketServer {
   globalMiddlewares: SocketMiddleware[] = [];
   middlewares: { [key: string]: SocketMiddleware[] } = {};
   rooms: { [roomName: string]: Set<string> } = {};
-  options: KeepAliveServerOptions;
+  serverOptions: KeepAliveServerOptions;
 
   constructor(opts: KeepAliveServerOptions) {
     super({ ...opts });
-    this.options = {
+    this.serverOptions = {
       ...opts,
       pingInterval: opts.pingInterval ?? 30_000,
       latencyInterval: opts.latencyInterval ?? 5_000,
@@ -105,7 +105,7 @@ export class KeepAliveServer extends WebSocketServer {
 
   private applyListeners() {
     this.on("connection", (socket: WebSocket, req: IncomingMessage) => {
-      const connection = new Connection(socket, req, this.options);
+      const connection = new Connection(socket, req, this.serverOptions);
       this.connections[connection.id] = connection;
       this.emit("connected", connection);
 
