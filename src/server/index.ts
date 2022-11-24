@@ -215,8 +215,9 @@ export class KeepAliveServer extends WebSocketServer {
    * Returns a "room", which is simply a Set of Connection ids.
    * @param roomName 
    */
-  getRoom(roomName: string): Set<string> {
-    return this.rooms[roomName];
+  getRoom(roomName: string): Connection[] {
+    const ids = this.rooms[roomName] || new Set();
+    return Array.from(ids).map((id) => this.connections[id]);
   }
 
   clearRoom(roomName: string) {
