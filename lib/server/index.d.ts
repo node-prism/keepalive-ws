@@ -104,7 +104,7 @@ export declare class KeepAliveServer extends WebSocketServer {
      * Returns a "room", which is simply a Set of Connection ids.
      * @param roomName
      */
-    getRoom(roomName: string): Set<string>;
+    getRoom(roomName: string): Connection[];
     clearRoom(roomName: string): void;
     registerCommand(command: string, callback: SocketMiddleware, ...middlewaares: SocketMiddleware[]): void;
     addMiddlewareToCommand(command: string, ...middlewares: SocketMiddleware[]): void;

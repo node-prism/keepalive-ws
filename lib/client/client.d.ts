@@ -40,7 +40,7 @@ export declare class KeepAliveClient extends EventTarget {
     applyListeners(): void;
     heartbeat(): void;
     reconnect(): Promise<void>;
-    command(command: string, payload: any, expiresIn: number, callback?: Function): Promise<unknown>;
+    command(command: string, payload: any, expiresIn?: number, callback?: Function): Promise<unknown>;
 }
 export {};
 //# sourceMappingURL=client.d.ts.map
