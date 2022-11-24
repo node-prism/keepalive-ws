@@ -134,7 +134,7 @@ export class KeepAliveClient extends EventTarget {
     connect();
   }
 
-  async command(command: string, payload: any, expiresIn: number, callback?: Function) {
+  async command(command: string, payload: any, expiresIn?: number, callback?: Function) {
     return this.connection.command(command, payload, expiresIn, callback);
   }
 }
