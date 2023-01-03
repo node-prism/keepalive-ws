@@ -106,8 +106,8 @@ export declare class KeepAliveServer extends WebSocketServer {
      */
     getRoom(roomName: string): Connection[];
     clearRoom(roomName: string): void;
-    registerCommand(command: string, callback: SocketMiddleware, ...middlewaares: SocketMiddleware[]): void;
-    addMiddlewareToCommand(command: string, ...middlewares: SocketMiddleware[]): void;
+    registerCommand(command: string, callback: SocketMiddleware, middlewaares: SocketMiddleware[]): void;
+    addMiddlewareToCommand(command: string, middlewares: SocketMiddleware[]): void;
     private runCommand;
 }
 export { Connection };
