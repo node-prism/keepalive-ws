@@ -4,6 +4,8 @@ Built for [grove](https://github.com/node-prism/grove), but works anywhere.
 
 ### Server
 
+For node.
+
 ```typescript
 import { KeepAliveServer, WSContext } from "@prsm/keepalive-ws/server";
 
@@ -48,6 +50,8 @@ Other things:
     - `broadcastRoom(roomName: string, command: string, payload: any): void`
 
 ### Client
+
+For the browser.
 
 ```typescript
 import { KeepAliveClient } from "@prsm/keepalive-ws/client";
