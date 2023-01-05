@@ -1,4 +1,8 @@
+For a TCP-based, node-only solution with a similar API, see [duplex](https://github.com/node-prism/duplex).
+
 # keepalive-ws
+
+A command server and client for simplified WebSocket communication, with builtin ping and latency messaging.
 
 Built for [grove](https://github.com/node-prism/grove), but works anywhere.
 
