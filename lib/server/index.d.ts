@@ -90,6 +90,11 @@ export declare class KeepAliveServer extends WebSocketServer {
      */
     broadcastRoom(roomName: string, command: string, payload: any): void;
     /**
+     * Given a connection, broadcasts a message to all connections except
+     * the provided connection.
+     */
+    broadcastExclude(connection: Connection, command: string, payload: any): void;
+    /**
      * @example
      * ```typescript
      * server.registerCommand("join:room", async (payload: { roomName: string }, connection: Connection) => {
