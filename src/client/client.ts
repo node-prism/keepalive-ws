@@ -73,6 +73,10 @@ export class KeepAliveClient extends EventTarget {
     this.connection.addEventListener("ping", () => {
       this.heartbeat();
     });
+
+    this.connection.addEventListener("message", (ev: CustomEventInit<unknown>) => {
+      this.dispatchEvent(new CustomEvent("message", ev));
+    });
   }
 
   heartbeat() {
