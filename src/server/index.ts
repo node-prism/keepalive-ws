@@ -193,6 +193,19 @@ export class KeepAliveServer extends WebSocketServer {
   }
 
   /**
+   * Given a connection, broadcasts a message to all connections except
+   * the provided connection.
+   */
+  broadcastExclude(connection: Connection, command: string, payload: any) {
+    const cmd = JSON.stringify({ command, payload });
+    Object.values(this.connections).forEach((c) => {
+      if (c.id !== connection.id) {
+        c.socket.send(cmd);
+      }
+    });
+  }
+
+  /**
    * @example
    * ```typescript
    * server.registerCommand("join:room", async (payload: { roomName: string }, connection: Connection) => {
