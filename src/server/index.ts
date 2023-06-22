@@ -224,9 +224,9 @@ export class KeepAliveServer extends WebSocketServer {
     this.rooms[roomName] = new Set();
   }
 
-  registerCommand(command: string, callback: SocketMiddleware, middlewaares: SocketMiddleware[]) {
+  registerCommand(command: string, callback: SocketMiddleware, middlewares: SocketMiddleware[] = []) {
     this.commands[command] = callback;
-    this.addMiddlewareToCommand(command, middlewaares);
+    this.addMiddlewareToCommand(command, middlewares);
   }
 
   addMiddlewareToCommand(command: string, middlewares: SocketMiddleware[]) {
