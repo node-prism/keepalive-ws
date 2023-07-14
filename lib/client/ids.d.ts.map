@@ -1,1 +1,0 @@
-{"version":3,"file":"ids.d.ts","sourceRoot":"","sources":["../../src/client/ids.ts"],"names":[],"mappings":"AAAA,qBAAa,SAAS;IACpB,GAAG,EAAE,KAAK,CAAC,IAAI,GAAG,KAAK,CAAC,CAAM;IAC9B,KAAK,EAAE,MAAM,CAAK;IAClB,QAAQ,EAAE,MAAM,CAAC;gBAEL,QAAQ,GAAE,MAAoB;IAI1C,OAAO,CAAC,EAAE,EAAE,MAAM;IAOlB,OAAO,IAAI,MAAM;CAuBlB"}

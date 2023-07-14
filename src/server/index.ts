@@ -79,7 +79,7 @@ export class KeepAliveServer extends WebSocketServer {
   globalMiddlewares: SocketMiddleware[] = [];
   middlewares: { [key: string]: SocketMiddleware[] } = {};
   rooms: { [roomName: string]: Set<string> } = {};
-  serverOptions: KeepAliveServerOptions;
+  declare serverOptions: KeepAliveServerOptions;
 
   constructor(opts: KeepAliveServerOptions) {
     super({ ...opts });
