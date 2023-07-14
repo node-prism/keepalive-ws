@@ -239,13 +239,20 @@ export class KeepAliveServer extends WebSocketServer {
 
   registerCommand(command: string, callback: SocketMiddleware, middlewares: SocketMiddleware[] = []) {
     this.commands[command] = callback;
-    this.addMiddlewareToCommand(command, middlewares);
+    this.prependMiddlewareToCommand(command, middlewares);
   }
 
-  addMiddlewareToCommand(command: string, middlewares: SocketMiddleware[]) {
+  prependMiddlewareToCommand(command: string, middlewares: SocketMiddleware[]) {
     if (middlewares.length) {
       this.middlewares[command] = this.middlewares[command] || [];
       this.middlewares[command] = middlewares.concat(this.middlewares[command]);
+    }
+  }
+
+  appendMiddlewareToCommand(command: string, middlewares: SocketMiddleware[]) {
+    if (middlewares.length) {
+      this.middlewares[command] = this.middlewares[command] || [];
+      this.middlewares[command] = this.middlewares[command].concat(middlewares);
     }
   }
 
