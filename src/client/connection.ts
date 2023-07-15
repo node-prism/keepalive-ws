@@ -102,7 +102,7 @@ export class Connection extends EventTarget {
             new CustomEvent(
               "latency:request",
               { detail: { latency: data.payload.latency ?? undefined }}
-              )
+            )
           );
           this.command("latency:response", { latency: data.payload.latency ?? undefined }, null);
         } else if (data.command === "latency") {
@@ -110,7 +110,7 @@ export class Connection extends EventTarget {
             new CustomEvent(
               "latency",
               { detail: { latency: data.payload ?? undefined }}
-              )
+            )
           );
         } else if (data.command === "ping") {
           this.dispatchEvent(new CustomEvent("ping", {}));

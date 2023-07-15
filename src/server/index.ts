@@ -279,10 +279,10 @@ export class KeepAliveServer extends WebSocketServer {
       }
 
       const result = await this.commands[command](c);
-      connection.send({ id, command, payload: result });
+      connection.send({ command, payload: result });
     } catch (e) {
       const payload = { error: e.message ?? e ?? "Unknown error" };
-      connection.send({ id, command, payload });
+      connection.send({ command, payload });
     }
   }
 }
