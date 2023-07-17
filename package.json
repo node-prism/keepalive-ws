@@ -1,6 +1,6 @@
 {
   "name": "@prsm/keepalive-ws",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "",
   "type": "module",
   "main": "lib/server/index.js",
