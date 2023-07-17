@@ -56,7 +56,7 @@ export class WSContext {
 }
 
 
-export type SocketMiddleware = (c: WSContext) => Promise<any>;
+export type SocketMiddleware = (c: WSContext) => any | Promise<any>;
 
 export type KeepAliveServerOptions = ServerOptions & {
   /**

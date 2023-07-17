@@ -42,7 +42,7 @@ declare class WSContext {
     payload: any;
     constructor(wss: KeepAliveServer, connection: Connection, payload: any);
 }
-type SocketMiddleware = (c: WSContext) => Promise<any>;
+type SocketMiddleware = (c: WSContext) => any | Promise<any>;
 type KeepAliveServerOptions = ServerOptions & {
     /**
      * The interval at which to send ping messages to the client.
