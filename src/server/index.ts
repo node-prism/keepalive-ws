@@ -7,17 +7,14 @@ export declare interface KeepAliveServer extends WebSocketServer {
   on(event: "connection", handler: (socket: WebSocket, req: IncomingMessage) => void): this;
   on(event: "connected", handler: (c: Connection) => void): this;
   on(event: "close", handler: (c: Connection) => void): this;
+  on(event: "error", cb: (this: WebSocketServer, error: Error) => void): this;
+  on(event: "headers", cb: (this: WebSocketServer, headers: string[], request: IncomingMessage) => void): this;
+  on(event: string | symbol, listener: (this: WebSocketServer, ...args: any[]) => void): this;
 
   emit(event: "connection", socket: WebSocket, req: IncomingMessage): boolean;
   emit(event: "connected", connection: Connection): boolean;
   emit(event: "close", connection: Connection): boolean;
   emit(event: "error", connection: Connection): boolean;
-
-  // on(event: "connection", cb: (this: WebSocketServer, socket: WebSocket, request: IncomingMessage) => void): this;
-  on(event: "error", cb: (this: WebSocketServer, error: Error) => void): this;
-  on(event: "headers", cb: (this: WebSocketServer, headers: string[], request: IncomingMessage) => void): this;
-  // on(event: "close" | "listening", cb: (this: WebSocketServer) => void): this;
-  on(event: string | symbol, listener: (this: WebSocketServer, ...args: any[]) => void): this;
 
   once(event: "connection", cb: (this: WebSocketServer, socket: WebSocket, request: IncomingMessage) => void): this;
   once(event: "error", cb: (this: WebSocketServer, error: Error) => void): this;
@@ -279,10 +276,10 @@ export class KeepAliveServer extends WebSocketServer {
       }
 
       const result = await this.commands[command](c);
-      connection.send({ command, payload: result });
+      connection.send({ id, command, payload: result });
     } catch (e) {
       const payload = { error: e.message ?? e ?? "Unknown error" };
-      connection.send({ command, payload });
+      connection.send({ id, command, payload });
     }
   }
 }
