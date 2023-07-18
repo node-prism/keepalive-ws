@@ -14,11 +14,13 @@ For node.
 import { KeepAliveServer, WSContext } from "@prsm/keepalive-ws/server";
 
 const ws = new KeepAliveServer({
+  // Where to mount this server and listen to messages.
   path: "/",
-  pingInterval: 30000,
+  // How often to send ping messages to connected clients.
+  pingInterval: 30_000,
   // Calculate round-trip time and send latency updates
   // to clients every 5s.
-  latencyInterval: 5000,
+  latencyInterval: 5_000,
 });
 
 ws.registerCommand(
@@ -37,9 +39,12 @@ ws.registerCommand(
 );
 ```
 
-Other things:
+Extended API:
 
 - Rooms
+
+  It can be useful to collect connections into rooms.
+
   - `addToRoom(roomName: string, connection: Connection): void`
   - `removeFromRoom(roomName: string, connection: Connection): void`
   - `getRoom(roomName: string): Connection[]`
@@ -60,7 +65,24 @@ For the browser.
 ```typescript
 import { KeepAliveClient } from "@prsm/keepalive-ws/client";
 
-const ws = new KeepAliveClient("ws://localhost:8080");
+const opts = {
+  // After 30s (+ maxLatency) of no ping, assume we've disconnected and attempt a
+  // reconnection if shouldReconnect is true.
+  // This number should be coordinated with the pingInterval from KeepAliveServer.
+  pingTimeout: 30_000,
+  // Try to reconnect whenever we are disconnected.
+  shouldReconnect: true,
+  // This number, added to pingTimeout, is the maximum amount of time
+  // that can pass before the connection is considered closed.
+  // In this case, 32s.
+  maxLatency: 2_000,
+  // How often to try and connect during reconnection phase.
+  reconnectInterval: 2_000,
+  // How many times to try and reconnect before giving up.
+  maxReconnectAttempts: Infinity,
+};
+
+const ws = new KeepAliveClient("ws://localhost:8080", opts);
 
 const { ok, token } = await ws.command("authenticate", {
   username: "user",
