@@ -9,7 +9,7 @@ type Command = {
 
 type LatencyPayload = {
   /** Round trip time in milliseconds. */
-  payload: number;
+  latency: number;
 };
 
 export declare interface Connection extends EventTarget {
@@ -99,7 +99,7 @@ export class Connection extends EventTarget {
 
         if (data.command === "latency:request") {
           this.dispatchEvent(
-            new CustomEvent(
+            new CustomEvent<LatencyPayload>(
               "latency:request",
               { detail: { latency: data.payload.latency ?? undefined }}
             )
@@ -107,7 +107,7 @@ export class Connection extends EventTarget {
           this.command("latency:response", { latency: data.payload.latency ?? undefined }, null);
         } else if (data.command === "latency") {
           this.dispatchEvent(
-            new CustomEvent(
+            new CustomEvent<LatencyPayload>(
               "latency",
               { detail: { latency: data.payload ?? undefined }}
             )

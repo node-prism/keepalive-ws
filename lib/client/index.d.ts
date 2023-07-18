@@ -28,7 +28,7 @@ type Command = {
 };
 type LatencyPayload = {
     /** Round trip time in milliseconds. */
-    payload: number;
+    latency: number;
 };
 declare interface Connection extends EventTarget {
     addEventListener(type: "message", listener: (ev: CustomEvent) => any, options?: boolean | AddEventListenerOptions): void;
