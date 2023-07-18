@@ -60,9 +60,7 @@ For the browser.
 ```typescript
 import { KeepAliveClient } from "@prsm/keepalive-ws/client";
 
-const ws = new KeepAliveClient({
-  url: "ws://localhost:8080",
-});
+const ws = new KeepAliveClient("ws://localhost:8080");
 
 const { ok, token } = await ws.command("authenticate", {
   username: "user",
