@@ -38,7 +38,7 @@ export declare interface Connection extends EventTarget {
   addEventListener(type: "reconnectfailed", listener: () => any, options?: boolean | AddEventListenerOptions): void;
 
   /** Emits when a ping message is received from @see KeepAliveServer from `@prsm/keepalive-ws/server`. */
-  addEventListener(type: "ping", listener: () => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: "ping", listener: (ev: CustomEventInit<{}>) => any, options?: boolean | AddEventListenerOptions): void;
 
   /** Emits when a latency event is received from @see KeepAliveServer from `@prsm/keepalive-ws/server`. */
   addEventListener(type: "latency", listener: (ev: CustomEventInit<LatencyPayload>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -130,7 +130,7 @@ export class Connection extends EventTarget {
 
   async command(command: string, payload: any, expiresIn: number = 30_000, callback: Function | null = null) {
     const id = this.ids.reserve();
-    const cmd = { id, command, payload };
+    const cmd = { id, command, payload: payload ?? {} };
 
     this.sendToken(cmd, expiresIn);
 

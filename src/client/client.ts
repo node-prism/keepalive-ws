@@ -3,6 +3,7 @@ import { Connection } from "./connection";
 type KeepAliveClientOptions = Partial<{
   /**
    * The number of milliseconds to wait before considering the connection closed due to inactivity.
+   * When this happens, the connection will be closed and a reconnect will be attempted if @see KeepAliveClientOptions.shouldReconnect is true.
    * This number should match the server's `pingTimeout` option.
    * @default 30000
    * @see maxLatency.
@@ -138,7 +139,7 @@ export class KeepAliveClient extends EventTarget {
     connect();
   }
 
-  async command(command: string, payload: any, expiresIn?: number, callback?: Function) {
+  async command(command: string, payload?: any, expiresIn?: number, callback?: Function) {
     return this.connection.command(command, payload, expiresIn, callback);
   }
 }
