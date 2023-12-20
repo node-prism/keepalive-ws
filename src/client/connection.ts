@@ -58,6 +58,26 @@ export class Connection extends EventTarget {
     this.applyListeners();
   }
 
+  /**
+   * Adds an event listener to the target.
+   * @param event The name of the event to listen for.
+   * @param listener The function to call when the event is fired.
+   * @param options An options object that specifies characteristics about the event listener.
+   */
+  on(event: string, listener: (ev: CustomEvent) => any, options?: boolean | AddEventListenerOptions) {
+    this.addEventListener(event, listener, options);
+  }
+
+  /**
+   * Removes the event listener previously registered with addEventListener.
+   * @param event A string that specifies the name of the event for which to remove an event listener.
+   * @param listener The event listener to be removed.
+   * @param options An options object that specifies characteristics about the event listener.
+   */
+  off(event: string, listener: (ev: CustomEvent) => any, options?: boolean | AddEventListenerOptions) {
+    this.removeEventListener(event, listener, options);
+  }
+
   sendToken(cmd: Command, expiresIn: number) {
     try {
       this.socket.send(JSON.stringify(cmd));

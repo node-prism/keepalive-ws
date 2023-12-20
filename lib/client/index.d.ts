@@ -64,6 +64,20 @@ declare class Connection extends EventTarget {
         [id: number]: (error: Error | null, result?: any) => void;
     };
     constructor(socket: WebSocket);
+    /**
+     * Adds an event listener to the target.
+     * @param event The name of the event to listen for.
+     * @param listener The function to call when the event is fired.
+     * @param options An options object that specifies characteristics about the event listener.
+     */
+    on(event: string, listener: (ev: CustomEvent) => any, options?: boolean | AddEventListenerOptions): void;
+    /**
+     * Removes the event listener previously registered with addEventListener.
+     * @param event A string that specifies the name of the event for which to remove an event listener.
+     * @param listener The event listener to be removed.
+     * @param options An options object that specifies characteristics about the event listener.
+     */
+    off(event: string, listener: (ev: CustomEvent) => any, options?: boolean | AddEventListenerOptions): void;
     sendToken(cmd: Command, expiresIn: number): void;
     applyListeners(reconnection?: boolean): void;
     command(command: string, payload: any, expiresIn?: number, callback?: Function | null): Promise<unknown>;
