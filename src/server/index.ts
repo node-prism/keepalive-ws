@@ -171,6 +171,13 @@ export class KeepAliveServer extends WebSocketServer {
     });
   }
 
+  broadcastRemoteAddressById(id: string, command: string, payload: any) {
+    const connection = this.connections[id];
+    if (connection) {
+      this.broadcastRemoteAddress(connection, command, payload);
+    }
+  }
+
   /**
    * Given a roomName, a command and a payload, broadcasts to all Connections
    * that are in the room.

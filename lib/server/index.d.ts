@@ -118,6 +118,7 @@ declare class KeepAliveServer extends WebSocketServer {
      *  - Auth changes, e.g., logging out in one tab should log you out in all tabs.
      */
     broadcastRemoteAddress(c: Connection, command: string, payload: any): void;
+    broadcastRemoteAddressById(id: string, command: string, payload: any): void;
     /**
      * Given a roomName, a command and a payload, broadcasts to all Connections
      * that are in the room.
