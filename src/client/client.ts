@@ -62,6 +62,10 @@ export class KeepAliveClient extends EventTarget {
     this.applyListeners();
   }
 
+  get on() {
+    return this.connection.addEventListener.bind(this.connection);
+  }
+
   applyListeners() {
     this.connection.addEventListener("connection", () => {
       this.heartbeat();

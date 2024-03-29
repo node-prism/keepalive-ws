@@ -92,7 +92,7 @@ const { ok, token } = await ws.command("authenticate", {
 const result = await ws.command("throws", {});
 // result is: { error: "oops" }
 
-ws.connection.on("latency", (e: CustomEvent<{ latency: number }>) => {
+ws.on("latency", (e: CustomEvent<{ latency: number }>) => {
   // e.detail.latency is round-trip time in ms
 });
 ```

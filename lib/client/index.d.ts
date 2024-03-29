@@ -124,6 +124,7 @@ declare class KeepAliveClient extends EventTarget {
     options: KeepAliveClientOptions;
     isReconnecting: boolean;
     constructor(url: string, opts?: KeepAliveClientOptions);
+    get on(): any;
     applyListeners(): void;
     heartbeat(): void;
     reconnect(): Promise<void>;
